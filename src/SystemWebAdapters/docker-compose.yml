@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  mvcapp:
+    build:
+      context: .
+      dockerfile: ./samples/MvcApp/DOCKERFILE
+  mvccoreapp:
+    depends_on:
+      - mvcapp
+    environment:
+      - ReverseProxy__Clusters__fallbackCluster__Destinations__fallbackApp__Address=http://mvcapp
+    ports:
+      - "9000:80"
+    build:
+      context: .
+      dockerfile: ./samples/MvcCoreApp/DOCKERFILE

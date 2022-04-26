@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "Microsoft.AspNetCore.SystemWebAdapters.sln",
+    "projects": [
+      "samples\\ClassLibrary\\ClassLibrary.csproj",
+      "samples\\MvcApp\\MvcApp.csproj",
+      "src\\Microsoft.AspNetCore.SystemWebAdapters.SessionState\\Microsoft.AspNetCore.SystemWebAdapters.SessionState.csproj",
+      "src\\Microsoft.AspNetCore.SystemWebAdapters\\Microsoft.AspNetCore.SystemWebAdapters.csproj"
+    ]
+  }
+}
