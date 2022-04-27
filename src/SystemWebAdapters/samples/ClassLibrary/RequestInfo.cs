@@ -18,26 +18,15 @@ public class RequestInfo
             writer.Write("Length", context.Request.InputStream.Length);
             writer.Write("Charset", context.Response.Charset);
             writer.Write("ContentType", context.Response.ContentType);
-            writer.Write("ContentEncoding", context.Response.ContentEncoding);
+            writer.Write("ContentEncoding", context.Response.ContentEncoding.WebName);
             context.Response.Output.Flush();
-
-            if (context.Session is { } state && state["test-value"] is int value)
-            {
-                writer.Write("test-value", value);
-            }
-
-            writer.Write("ContentType", context.Response.ContentType);
-            writer.Write("ContentEncoding", context.Response.ContentEncoding.WebName);
-
-            context.Response.ContentType = "application/json";
-            writer.Write("ContentType", context.Response.ContentType);
-            writer.Write("ContentEncoding", context.Response.ContentEncoding.WebName);
 
             // Status code
             writer.Write("StatusCode", context.Response.StatusCode);
             writer.Write("StatusDescription", context.Response.StatusDescription);
-            context.Response.End();
         }
+
+        context.Response.End();
 
         context.Response.SuppressContent = suppress;
         context.Response.End();

@@ -1,6 +1,8 @@
 version: "3.9"
 services:
   mvcapp:
+    ports:
+      - "9010:80"
     build:
       context: .
       dockerfile: ./samples/MvcApp/DOCKERFILE
