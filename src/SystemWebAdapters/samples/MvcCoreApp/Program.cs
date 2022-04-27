@@ -9,9 +9,9 @@ builder.Services.AddSystemWebAdapters()
     .AddRemoteAppSession(options =>
     {
         options.RemoteApp = new(builder.Configuration["ReverseProxy:Clusters:fallbackCluster:Destinations:fallbackApp:Address"]);
-        options.ApiKey = ClassLibrary.SessionTests.ApiKey;
+        options.ApiKey = ClassLibrary.SessionUtils.ApiKey;
 
-        ClassLibrary.SessionTests.RegisterSessionKeys(options);
+        ClassLibrary.SessionUtils.RegisterSessionKeys(options);
     });
 
 var app = builder.Build();

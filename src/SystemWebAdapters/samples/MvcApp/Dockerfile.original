@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 AS build
+WORKDIR /src
+
+COPY "Microsoft.AspNetCore.SystemWebAdapters.sln" .
+COPY "Microsoft.AspNetCore.SystemWebAdapters.MvcApp.slnf" .
+COPY ["samples/MvcApp/MvcApp.csproj", "samples/MvcApp/"]
+COPY ["samples/MvcApp/packages.config", "samples/MvcApp/"]
+COPY ["src/Microsoft.AspNetCore.SystemWebAdapters.SessionState/Microsoft.AspNetCore.SystemWebAdapters.SessionState.csproj", "src/Microsoft.AspNetCore.SystemWebAdapters.SessionState/"]
+COPY ["src/Microsoft.AspNetCore.SystemWebAdapters/Microsoft.AspNetCore.SystemWebAdapters.csproj", "src/Microsoft.AspNetCore.SystemWebAdapters/"]
+COPY ["samples/ClassLibrary/ClassLibrary.csproj", "samples/ClassLibrary/"]
+
+RUN msbuild -t:restore Microsoft.AspNetCore.SystemWebAdapters.MvcApp.slnf
+
+COPY . .
+
+WORKDIR /src/samples/MvcApp
+RUN msbuild /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=/published
+
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8 AS runtime
+EXPOSE 80
+EXPOSE 443
+WORKDIR /inetpub/wwwroot
+COPY --from=build /published/. ./
